@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/spritesheet.png" type="Texture" id=1]
+[ext_resource path="res://game_screen/goal.gd" type="Script" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 14.6068
+
+[node name="Goal" type="Node2D"]
+position = Vector2( 616.144, 335.331 )
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 160, 32, 32 )
+
+[node name="GoalArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GoalArea"]
+shape = SubResource( 1 )
+[connection signal="body_entered" from="GoalArea" to="." method="_on_GoalArea_body_entered"]

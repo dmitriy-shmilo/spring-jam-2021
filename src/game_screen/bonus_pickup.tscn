@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/spritesheet.png" type="Texture" id=1]
+[ext_resource path="res://game_screen/bonus_pickup.gd" type="Script" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 14.6068
+
+[node name="BonusPickup" type="Node2D"]
+position = Vector2( -547.126, 239.953 )
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+self_modulate = Color( 0.435294, 1, 0.866667, 1 )
+position = Vector2( 0, 16 )
+texture = ExtResource( 1 )
+offset = Vector2( 0, -16 )
+region_enabled = true
+region_rect = Rect2( 32, 160, 32, 32 )
+
+[node name="Area" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area"]
+shape = SubResource( 1 )
+
+[node name="Tween" type="Tween" parent="."]
+[connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]

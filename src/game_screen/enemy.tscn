@@ -1,0 +1,48 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://waypoints.tscn" type="PackedScene" id=1]
+[ext_resource path="res://game_screen/enemy_body.gd" type="Script" id=2]
+[ext_resource path="res://game_screen/enemy.gd" type="Script" id=3]
+[ext_resource path="res://assets/spritesheet.png" type="Texture" id=4]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 32, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 4 )
+region = Rect2( 32, 32, 32, 32 )
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=4]
+radius = 5.84286
+height = 4.87866
+
+[node name="Enemy" type="Node2D"]
+position = Vector2( 140.546, 53.6838 )
+script = ExtResource( 3 )
+
+[node name="Body" type="KinematicBody2D" parent="."]
+script = ExtResource( 2 )
+
+[node name="Sprite" type="AnimatedSprite" parent="Body"]
+frames = SubResource( 3 )
+frame = 1
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body"]
+position = Vector2( 0, 0.476501 )
+rotation = 1.5708
+shape = SubResource( 4 )
+
+[node name="Waypoints" parent="." instance=ExtResource( 1 )]
+points = PoolVector2Array( 0, 0, 30, 0, 35, 20 )
+current_point_idx = 1
+[connection signal="waypoint_reached" from="Body" to="." method="_on_Body_waypoint_reached"]
