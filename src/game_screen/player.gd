@@ -1,8 +1,10 @@
 class_name Player
 extends KinematicBody2D
 
-export(float) var max_health = 1000.0
-export(float) var current_health = max_health
+signal health_changed(new_value)
+
+export(float) var max_health = 100.0
+export(float) var health = max_health setget set_health
 export(float) var gravity  = 700.0
 export(Vector2) var speed = Vector2(150, 256+32)
 
@@ -65,3 +67,7 @@ func _physics_process(delta):
 	_sprite.scale.x = lerp(_sprite.scale.x, 1, 1 - pow(0.01, delta))
 	_sprite.scale.y = lerp(_sprite.scale.y, 1, 1 - pow(0.01, delta))
 
+
+func set_health(value):
+	health = clamp(value, 0.0, max_health)
+	emit_signal("health_changed", health)
