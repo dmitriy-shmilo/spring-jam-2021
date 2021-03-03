@@ -1,16 +1,20 @@
 class_name Player
 extends KinematicBody2D
 
+export(float) var max_health = 1000.0
+export(float) var current_health = max_health
 export(float) var gravity  = 700.0
 export(Vector2) var speed = Vector2(150, 256+32)
 
 var velocity = Vector2.ZERO;
 
 onready var camera: Camera2D = $PlayerCamera
-onready var _movement_tween = $MovementTween
-onready var _sprite = $Sprite
+onready var _movement_tween: Tween = $MovementTween
+onready var _squash_tween: Tween = $MovementTween
+onready var _sprite: Sprite = $Sprite
 
-var _was_on_floor = false
+var _prev_velocity = Vector2.ZERO
+var _hit_ground = false
 
 func _ready():
 	_movement_tween.interpolate_property(_sprite, "scale", \
@@ -33,23 +37,31 @@ func _physics_process(delta):
 		_sprite.flip_h = false
 	
 	velocity.x =  direction.x * speed.x
-	velocity.y += min(gravity * delta, speed.y)
-	
-	if direction.y < 0.0:
-		_sprite.scale = Vector2(1.2, 0.8) # TODO: make this work
+	velocity.y += gravity * delta
+
+	if is_on_floor() and direction.y < 0.0:
 		velocity.y = -speed.y
 	
-	if not is_on_floor():
-		_sprite.scale = Vector2(0.8, 1.2)
-
-	if velocity.x != 0 and is_on_floor():
-		if not _movement_tween.is_active():
-			_movement_tween.resume_all()
-	else:
-		if is_on_floor():
-			_sprite.scale = Vector2.ONE
-		_movement_tween.stop_all()
-
+	_prev_velocity = velocity
 	velocity = move_and_slide(velocity, Vector2.UP)
+
+	if not is_on_floor():
+		_movement_tween.stop_all()
+		_hit_ground = false
+		_sprite.scale.y = range_lerp(abs(velocity.y), 0, abs(speed.y), 0.8, 1.3)
+		_sprite.scale.x = range_lerp(abs(velocity.y), 0, abs(speed.y), 1.1, 0.7)
 	
-	_was_on_floor = is_on_floor()
+	if is_on_floor():
+		if not _hit_ground:
+			_hit_ground = true
+			_sprite.scale.x = range_lerp(abs(_prev_velocity.y), 0, abs(1024), 1.2, 1.8)
+			_sprite.scale.y = range_lerp(abs(_prev_velocity.y), 0, abs(1024), 0.8, 0.65)
+		if direction.x != 0.0:
+			_movement_tween.resume_all()
+		else:
+			_movement_tween.stop_all()
+
+		
+	_sprite.scale.x = lerp(_sprite.scale.x, 1, 1 - pow(0.01, delta))
+	_sprite.scale.y = lerp(_sprite.scale.y, 1, 1 - pow(0.01, delta))
+

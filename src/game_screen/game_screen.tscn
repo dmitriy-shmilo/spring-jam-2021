@@ -7,7 +7,7 @@
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 10.64
-height = 8.18077
+height = 2.8776
 
 [node name="GameScreen" type="Node2D"]
 script = ExtResource( 1 )
@@ -76,7 +76,7 @@ region_enabled = true
 region_rect = Rect2( 0, 0, 32, 32 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-position = Vector2( -0.841202, 0.65587 )
+position = Vector2( -0.841202, 3.79543 )
 shape = SubResource( 1 )
 
 [node name="MovementTween" type="Tween" parent="Player"]
@@ -89,5 +89,7 @@ limit_left = -192
 limit_top = -32
 limit_right = 896
 limit_bottom = 448
+
+[node name="SquashTween" type="Tween" parent="Player"]
 [connection signal="pressed" from="Gui/PauseContainer/VBoxContainer/HBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
 [connection signal="pressed" from="Gui/PauseContainer/VBoxContainer/HBoxContainer/ContinueButton" to="." method="_on_ContinueButton_pressed"]
