@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://game_screen/earth_tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://game_screen/goal.tscn" type="PackedScene" id=2]
 [ext_resource path="res://game_screen/levels/level.gd" type="Script" id=3]
 [ext_resource path="res://game_screen/bonus_pickup.tscn" type="PackedScene" id=4]
+[ext_resource path="res://game_screen/clutter_tileset.tres" type="TileSet" id=5]
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 3 )
@@ -21,6 +22,21 @@ position = Vector2( 561.468, 207.193 )
 
 [node name="IceCream3" parent="." instance=ExtResource( 4 )]
 position = Vector2( 718.538, 82.1347 )
+
+[node name="FrontClutter" type="TileMap" parent="."]
+position = Vector2( 0, 1 )
+tile_set = ExtResource( 5 )
+cell_size = Vector2( 32, 32 )
+format = 1
+tile_data = PoolIntArray( -65513, 3, 0, 327679, 4, 0, 262165, 2, 0, 524288, 5, 0, 524302, 3, 0, 589829, 3, 0, 655364, 1, 0 )
+
+[node name="BackClutter" type="TileMap" parent="."]
+position = Vector2( 0, 1 )
+z_index = -1
+tile_set = ExtResource( 5 )
+cell_size = Vector2( 32, 32 )
+format = 1
+tile_data = PoolIntArray( -65513, 0, 0, 262165, 0, 0, 524300, 6, 0, 524306, 2, 0, 655363, 1, 0 )
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource( 1 )
