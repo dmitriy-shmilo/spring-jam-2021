@@ -6,7 +6,9 @@ export(String) var action = null
 
 
 func _unhandled_key_input(event):
-	if event.is_action("ui_cancel") \
+	
+	if not visible \
+		or event.is_action("ui_cancel") \
 		or not event is InputEventKey or event.pressed \
 		or event.shift or event.alt or event.control \
 		or event.meta or event.meta:
