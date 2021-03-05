@@ -1,4 +1,4 @@
-class_name EnemyBody
+class_name BeeBody
 extends KinematicBody2D
 
 const WAYPOINT_DISTANCE_THRESHOLD = 9.0

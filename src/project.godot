@@ -10,14 +10,14 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Node2D",
-"class": "Enemy",
+"class": "Bee",
 "language": "GDScript",
-"path": "res://game_screen/enemy.gd"
+"path": "res://game_screen/bee.gd"
 }, {
 "base": "KinematicBody2D",
-"class": "EnemyBody",
+"class": "BeeBody",
 "language": "GDScript",
-"path": "res://game_screen/enemy_body.gd"
+"path": "res://game_screen/bee_body.gd"
 }, {
 "base": "Button",
 "class": "KeyBindingButton",
@@ -34,10 +34,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://game_screen/player.gd"
 }, {
-"base": "Node2D",
+"base": "Line2D",
 "class": "Waypoints",
 "language": "GDScript",
-"path": "res://waypoints.gd"
+"path": "res://game_screen/waypoints.gd"
 }, {
 "base": "Node2D",
 "class": "goal",
@@ -45,8 +45,8 @@ _global_script_classes=[ {
 "path": "res://game_screen/goal.gd"
 } ]
 _global_script_class_icons={
-"Enemy": "",
-"EnemyBody": "",
+"Bee": "",
+"BeeBody": "",
 "KeyBindingButton": "",
 "Level": "",
 "Player": "",

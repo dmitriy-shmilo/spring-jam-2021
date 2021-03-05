@@ -1,4 +1,4 @@
-class_name Enemy
+class_name Bee
 extends Node2D
 
 onready var _waypoints = $Waypoints
