@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://game_screen/waypoints.gd" type="Script" id=1]
 [ext_resource path="res://game_screen/bee_body.gd" type="Script" id=2]
 [ext_resource path="res://assets/spritesheet.png" type="Texture" id=3]
 [ext_resource path="res://game_screen/bee.gd" type="Script" id=4]
+[ext_resource path="res://game_screen/hitbox.gd" type="Script" id=5]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 3 )
@@ -29,15 +30,26 @@ height = 4.87866
 script = ExtResource( 4 )
 
 [node name="Body" type="KinematicBody2D" parent="."]
-collision_layer = 4
+collision_layer = 0
 script = ExtResource( 2 )
 
 [node name="Sprite" type="AnimatedSprite" parent="Body"]
 frames = SubResource( 3 )
-frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Body"]
+position = Vector2( 0, 0.5 )
+rotation = 1.5708
+shape = SubResource( 4 )
+disabled = true
+
+[node name="Hitbox" type="Area2D" parent="Body"]
+collision_layer = 4
+collision_mask = 2147483650
+script = ExtResource( 5 )
+damage = 20.0
+
+[node name="HitboxShape" type="CollisionShape2D" parent="Body/Hitbox"]
 position = Vector2( 0, 0.5 )
 rotation = 1.5708
 shape = SubResource( 4 )
@@ -46,13 +58,5 @@ shape = SubResource( 4 )
 visible = false
 points = PoolVector2Array( 0.410995, 0.0796432, 102.121, -0.185577 )
 script = ExtResource( 1 )
-
-[node name="Hitbox" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 2147483650
-
-[node name="HitboxShape" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2( 0, 0.5 )
-rotation = 1.5708
-shape = SubResource( 4 )
 [connection signal="waypoint_reached" from="Body" to="." method="_on_Body_waypoint_reached"]
+[connection signal="body_entered" from="Body/Hitbox" to="Body/Hitbox" method="_on_body_entered"]

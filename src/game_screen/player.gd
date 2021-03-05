@@ -2,13 +2,15 @@ class_name Player
 extends KinematicBody2D
 
 signal health_changed(new_value)
+signal died
 
 export(float) var max_health = 100.0
 export(float) var health = max_health setget set_health
 export(float) var gravity  = 700.0
 export(Vector2) var speed = Vector2(150, 256+32)
 
-var velocity = Vector2.ZERO;
+var velocity = Vector2.ZERO
+var knockback: = Vector2.ZERO
 
 onready var camera: Camera2D = $PlayerCamera
 onready var _movement_tween: Tween = $MovementTween
@@ -43,7 +45,7 @@ func _physics_process(delta):
 
 	if is_on_floor() and direction.y < 0.0:
 		velocity.y = -speed.y
-	
+
 	_prev_velocity = velocity
 	velocity = move_and_slide(velocity, Vector2.UP)
 
@@ -71,3 +73,10 @@ func _physics_process(delta):
 func set_health(value):
 	health = clamp(value, 0.0, max_health)
 	emit_signal("health_changed", health)
+	
+	if health <= 0:
+		emit_signal("died")
+
+
+func damage(damage: float, from: Vector2) -> void:
+	self.health -= damage

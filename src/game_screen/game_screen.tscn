@@ -126,6 +126,7 @@ region_enabled = true
 region_rect = Rect2( 0, 360, 1280, 360 )
 [connection signal="pressed" from="Gui/CanvasLayer/PauseContainer/VBoxContainer/HBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
 [connection signal="pressed" from="Gui/CanvasLayer/PauseContainer/VBoxContainer/HBoxContainer/ContinueButton" to="." method="_on_ContinueButton_pressed"]
+[connection signal="died" from="Player" to="." method="_on_Player_died"]
 [connection signal="health_changed" from="Player" to="." method="_on_Player_health_changed"]
 [connection signal="timeout" from="TemperatureTimer" to="." method="_on_TemperatureTimer_timeout"]
 [connection signal="timeout" from="MeltingTimer" to="." method="_on_MeltingTimer_timeout"]

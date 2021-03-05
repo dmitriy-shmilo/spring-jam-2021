@@ -12,6 +12,7 @@ onready var _temperature_bar: ProgressBar = $Gui/CanvasLayer/TemperatureBar
 var _levels = [
 	preload("res://game_screen/levels/level0.tscn"),
 	preload("res://game_screen/levels/level1.tscn"),
+	preload("res://game_screen/levels/level2.tscn"),
 ]
 var _current_level: Level = null
 
@@ -87,8 +88,9 @@ func _on_MeltingTimer_timeout() -> void:
 
 
 func _on_Player_health_changed(new_value) -> void:
-	if new_value <= 0.0:
-		get_tree().change_scene("res://game_over_screen/game_over_screen.tscn")
-
 	_health_bar.value = range_lerp(new_value, 0.0,
 		_player.max_health, _health_bar.min_value, _health_bar.max_value)
+
+
+func _on_Player_died() -> void:
+	get_tree().change_scene("res://game_over_screen/game_over_screen.tscn")
