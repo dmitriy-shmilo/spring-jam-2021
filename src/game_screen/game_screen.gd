@@ -9,8 +9,10 @@ onready var _pause_container: ColorRect = $Gui/CanvasLayer/PauseContainer
 onready var _health_bar: ProgressBar = $Gui/CanvasLayer/HealthBar
 onready var _temperature_bar: ProgressBar = $Gui/CanvasLayer/TemperatureBar
 
-var _levels = [preload("res://game_screen/levels/level0.tscn"),
-	preload("res://game_screen/levels/level1.tscn")]
+var _levels = [
+	preload("res://game_screen/levels/level0.tscn"),
+	preload("res://game_screen/levels/level1.tscn"),
+]
 var _current_level: Level = null
 
 func _ready():
@@ -26,6 +28,8 @@ func _unhandled_input(event):
 
 func _load_level(level_idx: int) -> void:
 	if _current_level != null:
+		_temperature_timer.stop()
+		_melting_timer.stop()
 		_current_level.queue_free()
 		remove_child(_current_level)
 		_player.set_collision_layer_bit(0, false)
@@ -41,9 +45,9 @@ func _load_level(level_idx: int) -> void:
 	_player.camera.limit_right = _current_level.bounds.end.x - _player.camera.limit_left
 	_player.camera.limit_bottom = _current_level.bounds.end.y - _player.camera.limit_top
 	_on_temperature_changed()
-	
-	yield(_current_level, "ready")
-	
+
+	yield(get_tree(), "idle_frame")
+
 	_player.set_collision_layer_bit(0, true)
 	_temperature_timer.start()
 	_melting_timer.start()
