@@ -59,4 +59,3 @@ visible = false
 points = PoolVector2Array( 0.410995, 0.0796432, 102.121, -0.185577 )
 script = ExtResource( 1 )
 [connection signal="waypoint_reached" from="Body" to="." method="_on_Body_waypoint_reached"]
-[connection signal="body_entered" from="Body/Hitbox" to="Body/Hitbox" method="_on_body_entered"]

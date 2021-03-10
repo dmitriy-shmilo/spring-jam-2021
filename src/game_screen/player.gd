@@ -4,21 +4,26 @@ extends KinematicBody2D
 signal health_changed(new_value)
 signal died
 
-export(float) var max_health = 100.0
-export(float) var health = max_health setget set_health
-export(float) var gravity  = 700.0
-export(Vector2) var speed = Vector2(150, 256+32)
+export(float) var max_health := 100.0
+export(float) var health := max_health setget set_health
+export(float) var gravity  := 700.0
+export(float) var knockback_strength := 400
+export(Vector2) var speed := Vector2(150, 256+32)
 
-var velocity = Vector2.ZERO
-var knockback: = Vector2.ZERO
+var velocity := Vector2.ZERO
+var knockback := Vector2.ZERO
 
 onready var camera: Camera2D = $PlayerCamera
 onready var _movement_tween: Tween = $MovementTween
 onready var _squash_tween: Tween = $MovementTween
 onready var _sprite: Sprite = $Sprite
+onready var _hurtbox: Hurtbox = $Hurtbox
+onready var _invincible_timer = $InvincibleTimer
+onready var _animation_player = $AnimationPlayer
 
 var _prev_velocity = Vector2.ZERO
 var _hit_ground = false
+var _is_invincible = false
 
 func _ready():
 	_movement_tween.interpolate_property(_sprite, "scale", \
@@ -40,14 +45,19 @@ func _physics_process(delta):
 	elif Input.is_action_just_pressed("right"):
 		_sprite.flip_h = false
 	
-	velocity.x =  direction.x * speed.x
+	velocity.x =  direction.x * speed.x + knockback.x
 	velocity.y += gravity * delta
 
-	if is_on_floor() and direction.y < 0.0:
+	if knockback != Vector2.ZERO:
+		velocity.y = knockback.y
+	elif is_on_floor() and direction.y < 0.0:
 		velocity.y = -speed.y
 
 	_prev_velocity = velocity
+
+	knockback = knockback.move_toward(Vector2.ZERO, 50)
 	velocity = move_and_slide(velocity, Vector2.UP)
+	
 
 	if not is_on_floor():
 		_movement_tween.stop_all()
@@ -79,4 +89,24 @@ func set_health(value):
 
 
 func damage(damage: float, from: Vector2) -> void:
+	if _is_invincible:
+		return
+	become_invincible()
+	knockback = (global_position - from).normalized() * knockback_strength
 	self.health -= damage
+
+
+func become_invincible(duration: float = -1) -> void:
+	if _is_invincible:
+		return
+
+	_is_invincible = true
+	_hurtbox.set_deferred("monitoring", false)
+	_animation_player.play("invincible")
+	_invincible_timer.start(duration)
+
+
+func _on_InvincibleTimer_timeout() -> void:
+	_is_invincible = false
+	_hurtbox.set_deferred("monitoring", true)
+	_animation_player.play("idle")
