@@ -6,24 +6,24 @@
 [ext_resource path="res://assets/sky.png" type="Texture" id=4]
 [ext_resource path="res://assets/ui.png" type="Texture" id=5]
 
-[sub_resource type="StyleBoxTexture" id=3]
+[sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 5 )
 region_rect = Rect2( 32, 240, 16, 16 )
 margin_right = 9.0
 
-[sub_resource type="StyleBoxTexture" id=4]
+[sub_resource type="StyleBoxTexture" id=2]
 texture = ExtResource( 5 )
 region_rect = Rect2( 0, 240, 32, 16 )
 margin_left = 16.0
 margin_right = 9.0
 expand_margin_left = 14.0
 
-[sub_resource type="AtlasTexture" id=1]
+[sub_resource type="AtlasTexture" id=3]
 flags = 2
 atlas = ExtResource( 4 )
 region = Rect2( 0, 0, 1280, 360 )
 
-[sub_resource type="StreamTexture" id=2]
+[sub_resource type="StreamTexture" id=4]
 flags = 2
 load_path = "res://.import/sky.png-5f245714f6a8ddd8d2d452ade02334b8.stex"
 
@@ -88,8 +88,8 @@ text = "Continue"
 margin_left = 16.0
 margin_right = 256.0
 margin_bottom = 14.0
-custom_styles/fg = SubResource( 3 )
-custom_styles/bg = SubResource( 4 )
+custom_styles/fg = SubResource( 1 )
+custom_styles/bg = SubResource( 2 )
 value = 100.0
 percent_visible = false
 __meta__ = {
@@ -126,7 +126,7 @@ motion_scale = Vector2( 0.1, 0 )
 motion_mirroring = Vector2( 1280, 0 )
 
 [node name="sky" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
-texture = SubResource( 1 )
+texture = SubResource( 3 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 1280, 360 )
 
@@ -136,7 +136,7 @@ motion_mirroring = Vector2( 1280, 0 )
 
 [node name="sky" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
 position = Vector2( -1.01831, 0 )
-texture = SubResource( 2 )
+texture = SubResource( 4 )
 region_enabled = true
 region_rect = Rect2( 0, 360, 1280, 360 )
 [connection signal="pressed" from="Gui/CanvasLayer/PauseContainer/VBoxContainer/HBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]

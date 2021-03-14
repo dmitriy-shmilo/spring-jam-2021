@@ -11,12 +11,11 @@ position = Vector2( -547.126, 239.953 )
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
-self_modulate = Color( 0.435294, 1, 0.866667, 1 )
 position = Vector2( 0, 16 )
 texture = ExtResource( 1 )
 offset = Vector2( 0, -16 )
 region_enabled = true
-region_rect = Rect2( 32, 160, 32, 32 )
+region_rect = Rect2( 0, 128, 32, 32 )
 
 [node name="Area" type="Area2D" parent="."]
 collision_layer = 2147483656
