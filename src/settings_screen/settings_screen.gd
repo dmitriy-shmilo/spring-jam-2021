@@ -6,10 +6,26 @@ const KeyBindingLabelScene = preload("res://settings_screen/keybinding_label.tsc
 
 onready var _keybindings_grid = $"VBoxContainer/PanelContainer/TabContainer/Key Bindings/GridContainer"
 onready var _keybinding_popup = $KeyBindingPopup
+onready var _master_volume_slider = $"VBoxContainer/PanelContainer/TabContainer/Sound Settings/MasterVolume/VolumeSlider"
+onready var _sfx_volume_slider = $"VBoxContainer/PanelContainer/TabContainer/Sound Settings/SfxVolume/VolumeSlider"
+onready var _speech_volume_slider = $"VBoxContainer/PanelContainer/TabContainer/Sound Settings/SpeechVolume/VolumeSlider"
+onready var _music_volume_slider = $"VBoxContainer/PanelContainer/TabContainer/Sound Settings/MusicVolume/VolumeSlider"
 
 var _current_binding_button: KeyBindingButton = null
 
 func _ready():
+	_prepare_keybindings()
+	_prepare_volume()
+
+
+func _prepare_volume():
+	_master_volume_slider.value = Settings.master_volume
+	_speech_volume_slider.value = Settings.speech_volume
+	_sfx_volume_slider.value = Settings.sfx_volume
+	_music_volume_slider.value = Settings.music_volume
+
+
+func _prepare_keybindings():
 	var actions = InputMap.get_actions()
 	for action in actions:
 		if action.begins_with("ui_") or action.begins_with("system_"):
@@ -24,7 +40,6 @@ func _ready():
 			[button])
 		_keybindings_grid.add_child(label)
 		_keybindings_grid.add_child(button)
-
 
 func _on_MasterVolumeSlider_value_changed(value):
 	Settings.master_volume = value
@@ -43,6 +58,7 @@ func _on_SpeechVolumeSlider_value_changed(value):
 
 
 func _on_BackButton_pressed():
+	Settings.save_settings()
 	get_tree().change_scene("res://title_screen/title_screen.tscn")
 
 

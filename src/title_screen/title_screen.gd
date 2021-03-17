@@ -5,6 +5,7 @@ onready var _quit_button = $VBoxContainer/QuitButton
 
 func _ready():
 	_quit_button.visible = not OS.has_feature("HTML5")
+	Settings.load_settings()
 
 
 func _on_QuitButton_pressed():
