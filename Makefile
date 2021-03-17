@@ -1,6 +1,8 @@
 NAME_OVERRIDE :=
 PROJECT_NAME = $(or $(NAME_OVERRIDE), $(notdir $(CURDIR)))
 GODOT = "godot"
+USERDATA_PATH = $(HOME)/Library/Application Support/Godot/app_userdata/$(PROJECT_NAME)
+
 
 all: html mac linux windows
 
@@ -31,6 +33,7 @@ win windows:
 clean:
 	rm -f build/*
 	rm -f logs/*
+	rm -rf "$(USERDATA_PATH)/"
 
 setup:
 	@echo "Setting project name..."
